@@ -83,7 +83,7 @@
                     <button id="calculate-mortgage" class="btn-calculate">Calculate</button>
                 </div>
                 <div class="results-container">
-                    <div class="summary-results">
+                    <div class="summary-results" id="mortgage-results">
                         <h3>Payment Summary</h3>
                         <div class="result-item">
                             <span class="result-label">Monthly Payment:</span>
@@ -138,9 +138,50 @@
                 <p>Project your retirement savings and determine if you're on track.</p>
             </div>
             <div class="calculator-container">
-                <!-- Input fields will be here -->
+                <div class="input-group">
+                    <div class="input-row">
+                        <label for="current-age">Current Age</label>
+                        <input type="number" id="current-age" min="18" max="100" value="30">
+                    </div>
+                    <div class="input-row">
+                        <label for="retirement-age">Retirement Age</label>
+                        <input type="number" id="retirement-age" min="18" max="100" value="65">
+                    </div>
+                    <div class="input-row">
+                        <label for="current-savings">Current Savings ($)</label>
+                        <input type="number" id="current-savings" min="0" step="1000" value="50000">
+                    </div>
+                    <div class="input-row">
+                        <label for="monthly-contribution">Monthly Contribution ($)</label>
+                        <input type="number" id="monthly-contribution" min="0" step="100" value="500">
+                    </div>
+                    <div class="input-row">
+                        <label for="annual-return">Expected Annual Return (%)</label>
+                        <input type="number" id="annual-return" min="0" max="30" step="0.1" value="7">
+                    </div>
+                    <div class="input-row">
+                        <label for="inflation-rate">Inflation Rate (%)</label>
+                        <input type="number" id="inflation-rate" min="0" max="10" step="0.1" value="2.5">
+                    </div>
+                    <div class="input-row">
+                        <label for="retirement-income">Desired Retirement Income ($/year)</label>
+                        <input type="number" id="retirement-income" min="0" step="1000" value="60000">
+                    </div>
+                    <div class="input-row">
+                        <label for="retirement-duration">Retirement Duration (years)</label>
+                        <input type="number" id="retirement-duration" min="1" max="60" value="30">
+                    </div>
+                    <button id="calculate-retirement" class="btn-calculate">Calculate</button>
+                </div>
+                <div class="results-container">
+                    <div class="summary-results" id="retirement-results">
+                        <!-- Results will be inserted here by JavaScript -->
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="retirement-chart"></canvas>
+                    </div>
+                </div>
             </div>
-            <!-- Results will be here -->
         </section>
 
         <!-- Investment Calculator -->
@@ -150,9 +191,64 @@
                 <p>Calculate investment growth with compound interest and periodic contributions.</p>
             </div>
             <div class="calculator-container">
-                <!-- Input fields will be here -->
+                <div class="input-group">
+                    <div class="input-row">
+                        <label for="initial-investment">Initial Investment ($)</label>
+                        <input type="number" id="initial-investment" min="0" step="1000" value="10000">
+                    </div>
+                    <div class="input-row">
+                        <label for="investment-monthly-contribution">Monthly Contribution ($)</label>
+                        <input type="number" id="investment-monthly-contribution" min="0" step="100" value="500">
+                    </div>
+                    <div class="input-row">
+                        <label for="years-to-grow">Years to Grow</label>
+                        <input type="number" id="years-to-grow" min="1" max="100" value="20">
+                    </div>
+                    <div class="input-row">
+                        <label for="investment-annual-return">Expected Annual Return (%)</label>
+                        <input type="number" id="investment-annual-return" min="0" max="30" step="0.1" value="7">
+                    </div>
+                    <div class="input-row">
+                        <label for="compound-frequency">Compound Frequency</label>
+                        <select id="compound-frequency">
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="annually">Annually</option>
+                        </select>
+                    </div>
+                    <div class="input-row">
+                        <label for="investment-inflation-rate">Inflation Rate (%)</label>
+                        <input type="number" id="investment-inflation-rate" min="0" max="10" step="0.1" value="2.5">
+                    </div>
+                    <button id="calculate-investment" class="btn-calculate">Calculate</button>
+                </div>
+                <div class="results-container">
+                    <div class="summary-results" id="investment-results">
+                        <!-- Results will be inserted here by JavaScript -->
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="investment-chart"></canvas>
+                    </div>
+                </div>
             </div>
-            <!-- Results will be here -->
+            <div class="amortization-container">
+                <h3>Yearly Growth</h3>
+                <div class="table-container">
+                    <table id="investment-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Balance</th>
+                                <th>Contributions</th>
+                                <th>Interest</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- Debt Payoff Calculator -->
@@ -162,9 +258,52 @@
                 <p>Create a payoff plan for credit cards, loans, and other debts.</p>
             </div>
             <div class="calculator-container">
-                <!-- Input fields will be here -->
+                <div class="input-group">
+                    <div id="debts-container">
+                        <!-- Debt rows will be added here -->
+                    </div>
+                    <button id="add-debt" class="btn-secondary">+ Add Debt</button>
+                    
+                    <div class="input-row">
+                        <label for="debt-monthly-payment">Monthly Payment ($)</label>
+                        <input type="number" id="debt-monthly-payment" min="0" step="10" value="500">
+                    </div>
+                    <div class="input-row">
+                        <label for="payoff-strategy">Payoff Strategy</label>
+                        <select id="payoff-strategy">
+                            <option value="avalanche">Avalanche (Highest Interest First)</option>
+                            <option value="snowball">Snowball (Smallest Balance First)</option>
+                        </select>
+                    </div>
+                    <button id="calculate-debt" class="btn-calculate">Calculate Payoff Plan</button>
+                </div>
+                <div class="results-container">
+                    <div class="summary-results" id="debt-results">
+                        <!-- Results will be inserted here by JavaScript -->
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="debt-chart"></canvas>
+                    </div>
+                </div>
             </div>
-            <!-- Results will be here -->
+            <div class="amortization-container">
+                <h3>Payoff Schedule</h3>
+                <div class="table-container">
+                    <table id="debt-schedule">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Payment</th>
+                                <th>Interest</th>
+                                <th>Debts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- Tax Calculator -->
@@ -174,9 +313,67 @@
                 <p>Estimate your tax liability and optimize your withholdings.</p>
             </div>
             <div class="calculator-container">
-                <!-- Input fields will be here -->
+                <div class="input-group">
+                    <div class="input-row">
+                        <label for="filing-status">Filing Status</label>
+                        <select id="filing-status">
+                            <option value="single">Single</option>
+                            <option value="married">Married Filing Jointly</option>
+                        </select>
+                    </div>
+                    <div class="input-row">
+                        <label for="taxable-income">Taxable Income ($)</label>
+                        <input type="number" id="taxable-income" min="0" step="1000" value="75000">
+                    </div>
+                    <div class="input-row">
+                        <label for="deductions">Deductions ($)</label>
+                        <input type="number" id="deductions" min="0" step="100" value="12500">
+                    </div>
+                    <div class="input-row">
+                        <label for="tax-credits">Tax Credits ($)</label>
+                        <input type="number" id="tax-credits" min="0" step="100" value="2000">
+                    </div>
+                    <div class="input-row">
+                        <label for="state">State Tax</label>
+                        <select id="state">
+                            <option value="none">None</option>
+                            <option value="custom">Custom Rate</option>
+                        </select>
+                    </div>
+                    <div class="input-row" id="state-rate-row" style="display: none;">
+                        <label for="state-rate">State Tax Rate (%)</label>
+                        <input type="number" id="state-rate" min="0" max="15" step="0.1" value="5">
+                    </div>
+                    <button id="calculate-tax" class="btn-calculate">Calculate Taxes</button>
+                </div>
+                <div class="results-container">
+                    <div class="summary-results" id="tax-results">
+                        <!-- Results will be inserted here by JavaScript -->
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="tax-chart"></canvas>
+                    </div>
+                </div>
             </div>
-            <!-- Results will be here -->
+            <div class="amortization-container">
+                <h3>Tax Brackets</h3>
+                <div class="table-container">
+                    <table id="tax-brackets">
+                        <thead>
+                            <tr>
+                                <th>Bracket</th>
+                                <th>Rate</th>
+                                <th>Your Income in Bracket</th>
+                                <th>Tax in Bracket</th>
+                                <th>Cumulative Tax</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
     </main>
 
